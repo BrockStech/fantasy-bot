@@ -31,20 +31,23 @@ class MessageScheduler:
             
     def post_by_schedule(self):
         if self.week_day == TUESDAY:
-            self.messages.append(self.formatter.standings())
+            if self.formatter.league.current_week > 1:
+                self.messages.append(self.formatter.standings())
+                self.messages.append(self.formatter.best_division())
+            if self.formatter.league.current_week > 2:
+                self.messages.append(self.formatter.weekly_volatility())
             if self.is_season_past_midpoint():
                 self.messages.append(self.formatter.winners_bracket())
                 self.messages.append(self.formatter.losers_bracket())
         elif self.week_day == WEDNESDAY:
             self.messages.append(self.formatter.faab())
-            self.messages.append(self.formatter.predicted_playoff_standings())
+            if self.formatter.league.current_week > 1:
+                self.messages.append(self.formatter.predicted_playoff_standings())
         elif self.week_day == THURSDAY:
             self.messages.append(self.formatter.matchup())
             if self.is_season_past_midpoint():
                 self.messages.append(self.formatter.winners_bracket_prediction())
                 self.messages.append(self.formatter.losers_bracket_prediction())
-        elif self.week_day == SUNDAY:
-            self.messages.append(self.formatter.scoreboard())
         self.process_messages(self.messages)
 
     def post_nba(self):

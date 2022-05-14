@@ -31,11 +31,14 @@ class Formatter:
         return print_pps
 
     def matchup(self):
-        print_standing = "Week " + str(self.league.current_week) + " Matchups:\n\n"
+        print_matchup = "Week " + str(self.league.current_week) + " Matchups:\n\n"
         for matchup in self.league.matchup_prediction().values():
-            print_standing += (matchup[0] + " (" + str(matchup[1]) + "%)"
-                               + "\n" + matchup[2] + " (" + str(matchup[3]) + "%)\n\n")
-        return print_standing
+            if self.league.current_week == 1:
+                print_matchup += (matchup[0] + " vs " + matchup[2])
+            else:
+                print_matchup += (matchup[0] + " (" + str(matchup[1]) + "%)"
+                                  + "\n" + matchup[2] + " (" + str(matchup[3]) + "%)\n\n")
+        return print_matchup
 
     def scoreboard(self):
         print_standing = "Scoreboard:\n\n"
@@ -93,3 +96,28 @@ class Formatter:
             for team_id, playoff_pred in self.league.losers_bracket_prediction():
                 print_wbps += self.league.team_name_dict[team_id] + " " + str((100 * playoff_pred).round(2)) + " %\n"
         return print_wbps
+
+    def weekly_volatility(self):
+        print_std = "Weekly Volatility:\n\n"
+        team_stds = {}
+        for team in self.league.team_name_dict:
+            team_stds[team] = self.league.generate_predicted_points(team)
+        for team_std in sorted(team_stds.items(), key=lambda x: x[1]):
+            print_std += team_std[0] + " - " + str(team_std[1].round(2)) + "\n"
+        return print_std
+
+    def best_division(self):
+        if self.league.has_divisions():
+            print_div = self.league.get_division_1_name() + " vs " + self.league.get_division_2_name() + \
+                        " (Week " + str(self.league.current_week - 1) + "):\n\n{}\n{} - {}\n{} - {}\n"
+            div1, div2 = self.league.best_division()
+            if div1 > div2:
+                return print_div.format(self.league.get_division_1_name() + " win!!", self.league.get_division_1_name(),
+                                        div1, self.league.get_division_2_name(), div2)
+            elif div2 > div1:
+                return print_div.format(self.league.get_division_2_name() + " win!!", self.league.get_division_2_name(),
+                                        div2, self.league.get_division_1_name(), div1)
+            else:
+                return print_div.format("It's a tie!!", self.league.get_division_1_name(), div1,
+                                        self.league.get_division_2_name(), div2)
+

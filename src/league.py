@@ -69,12 +69,20 @@ class League:
         return roster["settings"]["waiver_budget_used"]
 
     @staticmethod
+    def get_division(roster):
+        return roster["settings"]["division"]
+
+    @staticmethod
     def get_points(matchup):
         return matchup["points"]
 
     @staticmethod
     def get_matchup_id(matchup):
         return matchup["matchup_id"]
+
+    @staticmethod
+    def get_roster_id_by_matchup(matchup):
+        return matchup["roster_id"]
 
     def get_sport(self):
         return self._league["sport"]
@@ -94,8 +102,17 @@ class League:
     def uses_league_median(self):
         return bool(self._league["settings"]["league_average_match"])
 
+    def has_divisions(self):
+        return bool(self._league["settings"]["divisions"] > 0)
+
+    def get_division_1_name(self):
+        return self._league["metadata"]["division_1"]
+
+    def get_division_2_name(self):
+        return self._league["metadata"]["division_2"]
+
     def get_playoff_week_start(self):
-        return self._league["settings"]["playoff_week_start"]
+        return self._league["settings"]["divisions"]
 
     def get_week(self):
         return self.api.get_state()["week"]
@@ -171,7 +188,7 @@ class League:
     def create_predicted_points_dictionary(self):
         team_points_dictionary = {}
         for team in self.team_name_dict:
-            team_points_dictionary[team] = self.generate_predicted_points(team)
+            team_points_dictionary[team] = self.get_standard_deviation(team)
         return team_points_dictionary
 
     def get_predicted_wins_from_matchups(self):
@@ -250,6 +267,19 @@ class League:
                                         self.team_name_dict[self.get_roster_id(roster)]))
         faab_remaining_list.sort(reverse=True)
         return faab_remaining_list
+
+    def best_division(self):
+        div1, div2 = 0, 0
+        for matchup in self._matchups[self.current_week - 1]:
+            roster_id = self.get_roster_id_by_matchup(matchup)
+            points = self.get_points(matchup)
+            for roster in self._rosters:
+                if self.get_roster_id(roster) == roster_id:
+                    if self.get_division(roster) == 1:
+                        div1 += points
+                    else:
+                        div2 += points
+        return [div1.round(2), div2.round(2)]
 
     def winners_bracket_prediction(self):
         return self.playoff_bracket_prediction(self.api.get_winners_bracket(), False)
