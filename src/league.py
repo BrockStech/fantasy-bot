@@ -10,15 +10,19 @@ class League:
     def __init__(self, league_id=None):
         if league_id is not None:
             self.api = SleeperApi(league_id)
-            self._league = self.api.get_league()
-            self._users = self.api.get_users()
-            self._rosters = self.api.get_rosters()
-            self._matchups = self.get_seasonal_matchups()
-            self.team_name_dict = self.map_roster_id_to_team_name()
-            self.current_week = self.get_week()
-            self.schedule = self.get_schedule()
-            self.predicted_points = self.create_predicted_points_dictionary()
-            self.median = self.calculate_league_median()
+            if self.season_in_progress():
+                self._league = self.api.get_league()
+                self._users = self.api.get_users()
+                self._rosters = self.api.get_rosters()
+                self._matchups = self.get_seasonal_matchups()
+                self.team_name_dict = self.map_roster_id_to_team_name()
+                self.current_week = self.get_week()
+                self.schedule = self.get_schedule()
+                self.predicted_points = self.create_predicted_points_dictionary()
+                self.median = self.calculate_league_median()
+
+    def season_in_progress(self):
+        return self.api.get_state()["season_type"] == "regular"
 
     @staticmethod
     def get_team_name(user):

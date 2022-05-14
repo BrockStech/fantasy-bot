@@ -1,4 +1,7 @@
 import requests
+import requests_cache
+
+requests_cache.install_cache(cache_name='sleeper_cache', backend='sqlite', expire_after=3600)
 
 
 class SleeperApi:

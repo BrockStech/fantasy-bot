@@ -24,8 +24,6 @@ class MessageScheduler:
                 self.post_by_schedule()
             elif message_post_type == "test":
                 self.post_test()
-            elif self.formatter.league.get_sport() == "nba":
-                self.post_nba()
             else:
                 self.post_all()
         else:
@@ -84,21 +82,15 @@ class MessageScheduler:
         self.process_messages(self.messages)
 
     def post_sacko_message(self):
-        selection = random.choice([1, 2, 3, 4, 5])
+        selection = random.choice([1, 2])
         if selection == 1:
             self.messages.append(post_sacko_message())
         elif selection == 2:
-            self.messages.append(post_sacko_gif_gig())
-        elif selection == 3:
-            self.messages.append(post_sacko_gif_lake())
-        elif selection == 4:
-            self.messages.append(post_sacko_gif_pancaked())
-        elif selection == 5:
-            self.messages.append(post_sacko_gif_grills())
+            self.messages.append(post_sacko_jama())
         self.process_messages(self.messages)
 
     def is_season_in_progress(self):
-        return self.formatter.league.current_week > 2 and not self.formatter.league.is_season_complete()
+        return self.formatter.league.season_in_progress() and self.formatter.league.current_week > 2 and not self.formatter.league.is_season_complete()
 
     def is_season_past_midpoint(self):
         return self.formatter.league.current_week > self.formatter.league.get_playoff_week_start() / 2
