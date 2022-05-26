@@ -109,7 +109,7 @@ class MessageScheduler:
                         response = self.group_me_bot.post_image(message[0], message[1])
                     if 404 == response.status_code:
                         post_message = False
-                        print("Error: Invalid GroupMe bot ID -- Printing results in terminal\n\n" + message)
+                        print("Error: Invalid GroupMe bot ID -- Printing results in terminal\n\n" + message[0])
                 else:
                     print(message)
 
