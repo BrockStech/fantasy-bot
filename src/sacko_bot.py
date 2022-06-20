@@ -4,7 +4,11 @@ sacko_message = ["Go Blue!",
                  "Fun fact: Jama has been sacko 33% of the time"]
 
 sacko_gif = {
-    "jama": "https://i.groupme.com/531x960.jpeg.45548b95139245a0991a3ea97480937a"
+    "jama": "https://i.groupme.com/531x960.jpeg.45548b95139245a0991a3ea97480937a",
+    "losing": "https://i.groupme.com/1032x1584.jpeg.c31db1d75a864639bcecffeabb7f1a2b",
+    "profe": "https://i.groupme.com/996x1326.jpeg.25606e1595bb49da9fb77c4c1ab6cf70",
+    "krep_face": "https://i.groupme.com/1170x2532.jpeg.9df30ddc9fbc4277aee1b3cdc8aefa68",
+    "sleepy": "https://i.groupme.com/1170x2532.jpeg.15a1b45aa3414a2f92f0dbfa411d7d87"
 }
 
 division = {
@@ -58,6 +62,22 @@ def post_sacko_gif_grills():
 # Jama
 def post_sacko_jama():
     return "Three Sackos!", sacko_gif["jama"]
+
+
+def post_sacko_sleepy():
+    return "The feeling when you're the sacko for the 3rd time", sacko_gif["sleepy"]
+
+
+def post_sacko_krep_face():
+    return "@cantguardmike", sacko_gif["krep_face"]
+
+
+def post_sacko_profe():
+    return "", sacko_gif["profe"]
+
+
+def post_sacko_losing():
+    return "", sacko_gif["losing"]
 
 
 def post_sacko_gif_turnt_up(result):
