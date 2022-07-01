@@ -8,7 +8,8 @@ sacko_gif = {
     "losing": "https://i.groupme.com/1032x1584.jpeg.c31db1d75a864639bcecffeabb7f1a2b",
     "profe": "https://i.groupme.com/996x1326.jpeg.25606e1595bb49da9fb77c4c1ab6cf70",
     "krep_face": "https://i.groupme.com/1170x2532.jpeg.9df30ddc9fbc4277aee1b3cdc8aefa68",
-    "sleepy": "https://i.groupme.com/1170x2532.jpeg.15a1b45aa3414a2f92f0dbfa411d7d87"
+    "sleepy": "https://i.groupme.com/1170x2532.jpeg.15a1b45aa3414a2f92f0dbfa411d7d87",
+    "curry": "https://i.groupme.com/300x169.gif.d1ae4fa4b1a849b8a9efaa53fdae0dc0",
 }
 
 division = {
@@ -78,6 +79,10 @@ def post_sacko_profe():
 
 def post_sacko_losing():
     return "", sacko_gif["losing"]
+
+
+def post_sacko_curry():
+    return "Jama counting his sackos", sacko_gif["curry"]
 
 
 def post_sacko_gif_turnt_up(result):

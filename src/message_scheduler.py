@@ -85,7 +85,7 @@ class MessageScheduler:
         self.process_messages(self.messages)
 
     def post_sacko_message(self):
-        selection = random.choice([1, 2, 3, 4, 5, 6])
+        selection = random.choice([1, 2, 3, 4, 5, 6, 7])
         if selection == 1:
             self.messages.append(post_sacko_message())
         elif selection == 2:
@@ -98,6 +98,8 @@ class MessageScheduler:
             self.messages.append(post_sacko_profe())
         elif selection == 6:
             self.messages.append(post_sacko_losing())
+        elif selection == 7:
+            self.messages.append(post_sacko_curry())
         self.process_messages(self.messages)
 
     def is_season_in_progress(self):
